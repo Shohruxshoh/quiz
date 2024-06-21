@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, aget_object_or_404
 from rest_framework.response import Response
 from .serializers import ScienceSerializer, QuestionSerializer, AnswerCreateSerializer, AnswerCheckSerializer, \
-    CreateExamSerializer, ExamSerializer
+    CreateExamSerializer, ExamSerializer, ResultUserSerializer
 from rest_framework.permissions import IsAuthenticated
 from .models import Science, Question, Answer, Result, Exam
 from rest_framework.viewsets import ModelViewSet
@@ -92,3 +92,16 @@ class UserGetExamView(GenericAPIView):
         exam = Exam.objects.filter(user=request.user, is_exam=True, is_active=True)
         serializer = ExamSerializer(exam, many=True)
         return Response(serializer.data)
+
+
+class ResultUserView(GenericAPIView):
+    serializer_class = ResultUserSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, science_id, *args, **kwargs):
+        result = get_object_or_404(Result, science_id=science_id, user=request.user, group=request.user.group,
+                                   is_active=True)
+        serializer = ResultUserSerializer(result)
+        return Response(serializer.data)
+
+

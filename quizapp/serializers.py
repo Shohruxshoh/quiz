@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from users.serializers import GroupSerializer
-from quizapp.models import Science, Question, Answer, Exam
+from quizapp.models import Science, Question, Answer, Exam, Result
 
 
 class ScienceSerializer(serializers.ModelSerializer):
@@ -48,6 +48,15 @@ class CreateExamSerializer(serializers.Serializer):
 
 class ExamSerializer(serializers.ModelSerializer):
     science = ScienceNotGroupSerializer(read_only=True)
+
     class Meta:
         model = Exam
         fields = ['id', 'exam_id', 'user', 'science', 'group', 'is_active', 'is_exam']
+
+
+class ResultUserSerializer(serializers.ModelSerializer):
+    science = ScienceNotGroupSerializer(read_only=True)
+
+    class Meta:
+        model = Result
+        fields = ['id', 'result_id', 'user', 'science', 'group', 'is_active', 'question_result']
