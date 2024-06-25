@@ -24,6 +24,8 @@ class AnswerSerializer(serializers.ModelSerializer):
 class QuestionSerializer(serializers.ModelSerializer):
     answers = AnswerSerializer(read_only=True, many=True)
     science = ScienceNotGroupSerializer(read_only=True)
+    # science = serializers.CharField(source='science.name')
+
 
     class Meta:
         model = Question

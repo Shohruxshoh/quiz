@@ -32,10 +32,11 @@ class AnswerCreateView(CreateAPIView):
 class QuestionByScienceAndGroupView(GenericAPIView):
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request, science_id, *args, **kwargs):
-        group = get_object_or_404(Group, id=1)
+        group = get_object_or_404(Group, id=request.user.group.id)
         questions = Question.objects.filter(science_id=science_id, science__group=group,
                                             is_active=True).select_related("science").prefetch_related(
             "science__group").order_by('?')[:30]
@@ -70,19 +71,19 @@ class AnswerCheck(GenericAPIView):
                 answer__id__in=answer_ids,
                 answer__is_true=True,
                 answer__is_active=True
-            ).values_list('id', flat=True)
+            ).select_related('answer').values_list('id', flat=True)
 
             result_int = len(correct_answers)
-            r = Result.objects.filter(user_id=request.user, science_id=science_id, group_id=request.user.group.id,
-                                      is_active=True).last()
+            r = Result.objects.filter(user=request.user, science_id=science_id, group_id=request.user.group.id,
+                                      is_active=True).select_related("science", 'group', 'user').last()
             if r:
                 r.is_active = False
                 r.save()
 
-            Result.objects.create(user_id=request.user, science_id=science_id, group_id=request.user.group.id,
+            Result.objects.create(user=request.user, science_id=science_id, group_id=request.user.group.id,
                                   question_result=result_int)
             exam = Exam.objects.filter(user_id=request.user.id, science_id=science_id, group_id=request.user.group.id,
-                                       is_exam=True, is_active=True).last()
+                                       is_exam=True, is_active=True).select_related("science", 'group', 'user').last()
             if exam:
                 exam.is_exam = False
                 exam.save()
@@ -102,7 +103,7 @@ class CreateExamView(GenericAPIView):
         list_exam = []
         for user in serializer.data:
             if not Exam.objects.filter(user_id=user['users_id'], science_id=science_id, group_id=group_id, is_exam=True,
-                                       is_active=True).exists():
+                                       is_active=True).select_related("science", 'group').exists():
                 e = Exam(user_id=user['users_id'], science_id=science_id, group_id=group_id, is_exam=user['is_exam'])
                 list_exam.append(e)
 
