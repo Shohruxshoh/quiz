@@ -20,3 +20,11 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = ["id", "group_id", "name"]
+
+
+class UserMeSerializer(serializers.ModelSerializer):
+    group = serializers.CharField(source='group.name')
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'user_id', 'full_name', 'passpot_seriya', 'group']

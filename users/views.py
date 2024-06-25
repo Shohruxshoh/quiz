@@ -4,7 +4,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .serializers import UserSerializer, GroupSerializer
+from .serializers import UserSerializer, GroupSerializer, UserMeSerializer
 from rest_framework.viewsets import ModelViewSet
 
 
@@ -27,5 +27,5 @@ class UserMeView(APIView):
 
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(User, id=request.user.id)
-        serializer = UserSerializer(user)
+        serializer = UserMeSerializer(user)
         return Response(serializer.data)
