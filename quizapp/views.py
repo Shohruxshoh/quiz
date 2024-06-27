@@ -117,7 +117,7 @@ class UserGetExamView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        exam = Exam.objects.filter(user=request.user, is_exam=True, is_active=True)
+        exam = Exam.objects.filter(user=request.user, is_active=True)
         serializer = ExamSerializer(exam, many=True)
         return Response(serializer.data)
 
