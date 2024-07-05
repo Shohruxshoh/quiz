@@ -65,7 +65,7 @@ class ResultUserSerializer(serializers.ModelSerializer):
 
 
 class ResultSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(source='user.username')
+    user = serializers.CharField(source='user.full_name')
     science = serializers.CharField(source='science.name')
 
     class Meta:
