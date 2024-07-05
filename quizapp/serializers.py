@@ -24,8 +24,8 @@ class AnswerSerializer(serializers.ModelSerializer):
 class QuestionSerializer(serializers.ModelSerializer):
     answers = AnswerSerializer(read_only=True, many=True)
     science = ScienceNotGroupSerializer(read_only=True)
-    # science = serializers.CharField(source='science.name')
 
+    # science = serializers.CharField(source='science.name')
 
     class Meta:
         model = Question
@@ -62,3 +62,12 @@ class ResultUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
         fields = ['id', 'result_id', 'user', 'science', 'group', 'is_active', 'question_result']
+
+
+class ResultSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source='user.username')
+    science = serializers.CharField(source='science.name')
+
+    class Meta:
+        model = Result
+        fields = ['user', 'science', 'question_result']

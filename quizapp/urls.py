@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import ScienceViewSet, QuestionViewSet, AnswerCreateView, QuestionByScienceAndGroupView, AnswerCheck, \
-    CreateExamView, UserGetExamView, ResultUserView
+    CreateExamView, UserGetExamView, ResultUserView, ResultListView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -9,6 +9,8 @@ router.register(r'questions', QuestionViewSet, basename='question')
 urlpatterns = router.urls
 
 urlpatterns += [
+
+    path('result/', ResultListView.as_view()),
     path('answer/', AnswerCreateView.as_view()),
     path('exam/', UserGetExamView.as_view()),
     path('answer-check/<int:science_id>/', AnswerCheck.as_view()),

@@ -1,11 +1,11 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .serializers import ScienceSerializer, QuestionSerializer, AnswerCreateSerializer, AnswerCheckSerializer, \
-    CreateExamSerializer, ExamSerializer, ResultUserSerializer
+    CreateExamSerializer, ExamSerializer, ResultUserSerializer, ResultSerializer
 from rest_framework.permissions import IsAuthenticated
 from .models import Science, Question, Answer, Result, Exam
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import CreateAPIView, GenericAPIView
+from rest_framework.generics import CreateAPIView, GenericAPIView, ListAPIView
 from users.models import Group
 
 
@@ -131,3 +131,7 @@ class ResultUserView(GenericAPIView):
                                    is_active=True)
         serializer = ResultUserSerializer(result)
         return Response(serializer.data)
+
+class ResultListView(ListAPIView):
+    queryset = Result.objects.filter(is_active=True)
+    serializer_class = ResultSerializer
