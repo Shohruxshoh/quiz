@@ -3,6 +3,8 @@ from .models import User, Group
 
 
 class UserSerializer(serializers.ModelSerializer):
+    group = serializers.CharField(source='group.name')
+
     class Meta:
         model = User
         fields = ['id', 'username', 'user_id', 'full_name', "group", 'passpot_seriya']
