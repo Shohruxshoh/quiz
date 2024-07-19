@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import ScienceViewSet, QuestionViewSet, AnswerCreateView, QuestionByScienceAndGroupView, AnswerCheck, \
-    CreateExamView, UserGetExamView, ResultUserView, ResultListView
+    CreateExamView, UserGetExamView, ResultUserView, ResultListView, ExamViewList
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -13,6 +13,7 @@ urlpatterns += [
     path('result/', ResultListView.as_view()),
     path('answer/', AnswerCreateView.as_view()),
     path('exam/', UserGetExamView.as_view()),
+    path('exams/', ExamViewList.as_view()),
     path('answer-check/<int:science_id>/', AnswerCheck.as_view()),
     path('exam/<int:science_id>/<int:group_id>/', CreateExamView.as_view()),
     path('test/<int:science_id>/', QuestionByScienceAndGroupView.as_view()),

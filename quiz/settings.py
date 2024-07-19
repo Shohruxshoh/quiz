@@ -125,7 +125,6 @@ AUTH_USER_MODEL = 'users.User'
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static/'
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -154,6 +153,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 10
 }
 
 from datetime import timedelta

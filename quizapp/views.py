@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
+
+from users.pagination import StandardResultsSetPagination
 from .serializers import ScienceSerializer, QuestionSerializer, AnswerCreateSerializer, AnswerCheckSerializer, \
     CreateExamSerializer, ExamSerializer, ResultUserSerializer, ResultSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -15,6 +17,7 @@ class ScienceViewSet(ModelViewSet):
     queryset = Science.objects.all()
     serializer_class = ScienceSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
 
 
 class QuestionViewSet(ModelViewSet):
@@ -132,6 +135,17 @@ class ResultUserView(GenericAPIView):
         serializer = ResultUserSerializer(result)
         return Response(serializer.data)
 
+
 class ResultListView(ListAPIView):
     queryset = Result.objects.filter(is_active=True)
     serializer_class = ResultSerializer
+    permission_classes = (IsAuthenticated,)
+    pagination_class = StandardResultsSetPagination
+
+
+class ExamViewList(ListAPIView):
+    queryset = Exam.objects.filter(is_active=True)
+    serializer_class = ExamSerializer
+    permission_classes = (IsAuthenticated,)
+    pagination_class = StandardResultsSetPagination
+

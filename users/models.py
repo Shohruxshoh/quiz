@@ -15,9 +15,15 @@ class Group(models.Model):
 
 
 class User(AbstractUser):
+    GENDER = (
+        ("male", "erkak"),
+        ("female", "ayol")
+    )
+
     user_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     full_name = models.CharField(max_length=200)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True)
+    group = models.ForeignKey(Group, on_delete=models.RESTRICT, null=True, blank=True)
+    gender = models.CharField(max_length=20, choices=GENDER, default="erkak")
     passpot_seriya = models.CharField(max_length=200, null=True, blank=True)
     is_active = models.BooleanField(default=True)
 
