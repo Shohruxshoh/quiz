@@ -3,7 +3,6 @@ from .models import User, Group
 
 
 class UserSerializer(serializers.ModelSerializer):
-    group = serializers.CharField(source='group.name')
 
     class Meta:
         model = User

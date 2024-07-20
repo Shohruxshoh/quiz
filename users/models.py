@@ -23,7 +23,7 @@ class User(AbstractUser):
     user_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     full_name = models.CharField(max_length=200)
     group = models.ForeignKey(Group, on_delete=models.RESTRICT, null=True, blank=True)
-    gender = models.CharField(max_length=20, choices=GENDER, default="erkak")
+    gender = models.CharField(max_length=20, choices=GENDER, default=GENDER[0][0])
     passpot_seriya = models.CharField(max_length=200, null=True, blank=True)
     is_active = models.BooleanField(default=True)
 

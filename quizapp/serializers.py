@@ -4,6 +4,8 @@ from quizapp.models import Science, Question, Answer, Exam, Result
 
 
 class ScienceSerializer(serializers.ModelSerializer):
+
+
     class Meta:
         model = Science
         fields = ['id', 'science_id', 'is_active', 'name', 'group']
